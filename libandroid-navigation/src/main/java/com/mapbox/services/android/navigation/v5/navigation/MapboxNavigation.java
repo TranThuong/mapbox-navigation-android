@@ -14,6 +14,8 @@ import com.mapbox.services.android.navigation.v5.milestone.BannerInstructionMile
 import com.mapbox.services.android.navigation.v5.milestone.Milestone;
 import com.mapbox.services.android.navigation.v5.milestone.MilestoneEventListener;
 import com.mapbox.services.android.navigation.v5.milestone.VoiceInstructionMilestone;
+import com.mapbox.services.android.navigation.v5.navigation.camera.Camera;
+import com.mapbox.services.android.navigation.v5.navigation.camera.SimpleCamera;
 import com.mapbox.services.android.navigation.v5.navigation.metrics.FeedbackEvent;
 import com.mapbox.services.android.navigation.v5.offroute.OffRoute;
 import com.mapbox.services.android.navigation.v5.offroute.OffRouteDetector;
@@ -57,6 +59,7 @@ public class MapboxNavigation implements ServiceConnection {
   private Context context;
   private boolean isBound;
   private NavigationTelemetry navigationTelemetry = null;
+  private Camera cameraEngine;
 
   /**
    * Constructs a new instance of this class using the default options. This should be used over
@@ -135,6 +138,7 @@ public class MapboxNavigation implements ServiceConnection {
     navigationEventDispatcher = new NavigationEventDispatcher();
 
     initializeDefaultLocationEngine();
+    initializeDefaultCameraEngine();
     initializeTelemetry();
 
     // Create and add default milestones if enabled.
@@ -193,6 +197,10 @@ public class MapboxNavigation implements ServiceConnection {
       locationEngine.removeLocationUpdates();
       locationEngine.deactivate();
     }
+  }
+
+  private void initializeDefaultCameraEngine() {
+    cameraEngine = new SimpleCamera();
   }
 
   // Lifecycle
@@ -327,6 +335,14 @@ public class MapboxNavigation implements ServiceConnection {
   @NonNull
   public LocationEngine getLocationEngine() {
     return locationEngine;
+  }
+
+  public void setCameraEngine(@NonNull Camera cameraEngine) {
+    this.cameraEngine = cameraEngine;
+  }
+
+  public Camera getCameraEngine() {
+    return cameraEngine;
   }
 
   /**
