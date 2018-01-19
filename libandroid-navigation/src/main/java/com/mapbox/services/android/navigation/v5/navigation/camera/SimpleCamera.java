@@ -4,8 +4,8 @@ import android.util.SparseArray;
 
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.core.constants.Constants;
+import com.mapbox.geojson.LineString;
 import com.mapbox.geojson.Point;
-import com.mapbox.services.commons.geojson.LineString;
 import com.mapbox.turf.TurfConstants;
 import com.mapbox.turf.TurfMeasurement;
 
@@ -48,8 +48,8 @@ public class SimpleCamera extends Camera {
     double bearing = 0;
     if (routeInformation.route() != null) {
       setupLineStringAndBearing(routeInformation.route());
-      lng = lineString.getCoordinates().get(0).getLongitude();
-      lat = lineString.getCoordinates().get(0).getLatitude();
+      lng = lineString.coordinates().get(0).longitude();
+      lat = lineString.coordinates().get(0).latitude();
       bearing = initialBearing;
     } else if (routeInformation.location() != null) {
       lng = routeInformation.location().getLongitude();
@@ -82,10 +82,10 @@ public class SimpleCamera extends Camera {
     lineString = LineString.fromPolyline(route.geometry(), Constants.PRECISION_6);
     initialBearing = TurfMeasurement.bearing(
             Point.fromLngLat(
-                    lineString.getCoordinates().get(0).getLongitude(), lineString.getCoordinates().get(0).getLatitude()
+                    lineString.coordinates().get(0).longitude(), lineString.coordinates().get(0).latitude()
             ),
             Point.fromLngLat(
-                    lineString.getCoordinates().get(1).getLongitude(), lineString.getCoordinates().get(1).getLatitude()
+                    lineString.coordinates().get(1).longitude(), lineString.coordinates().get(1).latitude()
             )
     );
   }

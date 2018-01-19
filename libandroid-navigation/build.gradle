@@ -45,6 +45,9 @@ dependencies {
   // Mapbox Android Services
   api (dependenciesList.mapboxServices) {
     transitive = true
+    exclude module: 'mapbox-java-geojson'
+    exclude module: 'mapbox-java-core'
+    exclude module: 'mapbox-java-services'
   }
 
   api dependenciesList.mapboxSdkServices
